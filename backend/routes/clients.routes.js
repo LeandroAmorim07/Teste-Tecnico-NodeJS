@@ -47,6 +47,7 @@ router.put('/:id', (req, res) => { // Update a client by a given ID
 });
 
 const upload = require('../middlewares/upload.middlewares');
+const clientsDB = require('../database/clients.db');
 
 
  // Import clients from Excel file
@@ -57,6 +58,8 @@ router.post('/import', upload.single('file'), (req, res) => {
 
     const importedClients = ClientsService.importClientsFromExcel(req.file.path);
     res.json({ message: "Clients imported successfully", clients: importedClients });
+    
+    console.log(clientsDB);
 });
 
 
