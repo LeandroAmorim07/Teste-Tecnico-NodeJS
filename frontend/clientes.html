@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD de Clientes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>CRUD de Clientes</h1>
+
+    <!-- formulario simples para inserir cliente e salvar -->
+    <form id="clientForm">
+        <input type="hidden" id="clientId">
+        <input type="text" id="clientName" placeholder="Nome" required>
+        <input type="email" id="clientEmail" placeholder="E-mail" required>
+        <button type="submit">Salvar Cliente</button>
+    </form>
+
+    <!-- para fazer upload do excell -->
+    <form id="importForm">
+        <input type="file" id="excelFile" accept=".xlsx">
+        <button type="submit">Importar Excel</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="clientTableBody">
+           
+        </tbody>
+    </table>
+
+    <script src="script.js"></script>
+</body>
+</html>

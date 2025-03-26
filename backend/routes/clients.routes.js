@@ -2,62 +2,66 @@ const express = require('express');
 const router = express.Router();
 const ClientsService = require('../services/clients.service');
 
-// Get all clients
+// pegar todos os clientes
 router.get('/', (req, res) => {
     res.json(ClientsService.getAllClients());
 });
 
-// Get client by ID
+// pegar um cliente pelo id 
 router.get('/:id', (req, res) => {
     const client = ClientsService.getClientById(parseInt(req.params.id));
     if (!client) {
-        return res.status(404).json({ error: "Client not found" });
+        return res.status(404).json({ error: "Cliente não encontrado" });
     }
     res.json(client);
 });
 
-// Create a new client
+// Criar um cliente
 router.post('/', (req, res) => {
     const { name, email } = req.body;
     if (!name || !email) {
-        return res.status(400).json({ error: "Name and email are required!" });
+        return res.status(400).json({ error: "Nome e Email são necessários" });
     }
     const newClient = ClientsService.createClient(name, email);
     res.status(201).json(newClient);
 });
 
-// Delete a client
+// Delete um cliente
 router.delete('/:id', (req, res) => {
     const deletedClient = ClientsService.deleteClient(parseInt(req.params.id));
     if (!deletedClient) {
-        return res.status(404).json({ error: "Client not found" });
+        return res.status(404).json({ error: "Client não encontrado" });
     }
-    res.json({ message: "Client deleted successfully", client: deletedClient });
+    res.json({ message: "Cliente deletado com Sucesso", client: deletedClient });
 });
 
-router.put('/:id', (req, res) => { // Update a client by a given ID
+
+
+
+// Atualizar um cliente
+router.put('/:id', (req, res) => { 
     const { name, email } = req.body;
     const updatedClient = ClientsService.updateClient(parseInt(req.params.id), name, email);
     
     if (!updatedClient) {
-        return res.status(404).json({ error: "Client not found" });
+        return res.status(404).json({ error: "Cliente não encontrado" });
     }
 
-    res.json({ message: "Client updated successfully", client: updatedClient });
+    res.json({ message: "Clientes atualizados com sucesso", client: updatedClient });
 });
 
 const upload = require('../middlewares/upload.middlewares');
 const clientsDB = require('../database/clients.db');
 
 
- // Import clients from Excel file
+ // Importar clientes de um arquivo excel
 router.post('/import', upload.single('file'), (req, res) => { 
     if (!req.file) {
         return res.status(400).json({ error: "No file upload" });
     }
 
     const importedClients = ClientsService.importClientsFromExcel(req.file.path);
-    res.json({ message: "Clients imported successfully", clients: importedClients });
+    res.json({ message: "Clientes importados com sucesso", clients: importedClients });
     
     console.log(clientsDB);
 });

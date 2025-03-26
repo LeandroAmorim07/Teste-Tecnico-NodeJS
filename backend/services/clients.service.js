@@ -35,12 +35,16 @@ class ClientsService {
 
     static createClient(name, email) {
         const clientsDB = readClientsDB();
-        const newClient = { id: clientsDB.length + 1, name, email };
+        
+        // tenho que encontrar o maior id existente e somar 1 pra ser incremental
+        const maxId = clientsDB.reduce((max, client) => Math.max(max, client.id), 0);
+        const newClient = { id: maxId + 1, name, email };
+        
         clientsDB.push(newClient);
         saveClientsDB(clientsDB);  
         return newClient;
     }
-
+    
     static deleteClient(id) {
         const clientsDB = readClientsDB();
         const index = clientsDB.findIndex(client => client.id === id);
