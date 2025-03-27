@@ -30,12 +30,11 @@ function loadClients() {
         })
         .catch((error) => console.error("Erro ao carregar clientes:", error));
 }
-
 // Salvar (Criar ou Atualizar) Cliente
 function saveClient(event) {
     event.preventDefault();
 
-    const id = document.getElementById("clientId").value;
+    const id = document.getElementById("clientId").value.trim(); // Pega o ID (se existir)
     const name = document.getElementById("clientName").value;
     const email = document.getElementById("clientEmail").value;
 
@@ -51,16 +50,18 @@ function saveClient(event) {
     .then(() => {
         loadClients();
         document.getElementById("clientForm").reset(); // Limpar o formulário
+        document.getElementById("clientId").value = ""; // Resetar o campo ID para evitar edição contínua
     })
     .catch((error) => console.error("Erro ao salvar cliente:", error));
 }
 
 // Preencher o formulário para edição
 function editClient(id, name, email) {
-    document.getElementById("clientId").value = id;
+    document.getElementById("clientId").value = id; // Define o ID para edição
     document.getElementById("clientName").value = name;
     document.getElementById("clientEmail").value = email;
 }
+
 
 // Excluir cliente
 function deleteClient(id) {
